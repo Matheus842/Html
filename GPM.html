@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPM</title>
+
+    <style>
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 7px;
+            margin-top: 25px;
+        }
+
+        div {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .inputs {
+            margin-top: 15px;
+        }
+
+        #button {
+            margin: 15px 0;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="main">
+        <div class="inputs">
+            <label for="dem">Demanda</label>
+            <input type="text" inputmode="numeric" id="dem">
+        </div>
+        <div class="inputs">
+            <label for="time">Horas de produção por dia</label>
+            <input type="time" id="time">
+        </div>
+        <div class="inputs">
+            <label for="set">Tempo de setup</label>
+            <input type="text" inputmode="numeric" id="set" placeholder="Em minutos">
+        </div>
+        <div class="inputs">
+            <label for="mov">Tempo de movimentação</label>
+            <input type="text" inputmode="numeric" id="mov" placeholder="Em minutos">
+        </div>
+        <div class="inputs">
+            <label for="lot">Tempo de produção do lote Kenban</label>
+            <input type="text" inputmode="numeric" id="lot" placeholder="Em minutos">
+        </div>
+        <div class="inputs">
+            <label for="nct">Número de peças no contetor padrão</label>
+            <input type="text" inputmode="numeric" id="nct">
+        </div>
+        <input type="button" onclick="gpm()" id="button" value="Calcular">
+        <p id="res">Resultado: </p>
+    </div>
+    
+
+    <script>
+
+        function gpm(){
+            var time = document.querySelector('#time') // Ok
+            var dem = parseFloat(document.querySelector('#dem').value)
+            var set = parseFloat(document.querySelector('#set').value)
+            var mov = parseFloat(document.querySelector('#mov').value)
+            var lot = parseFloat(document.querySelector('#lot').value)
+            var nct = parseFloat(document.querySelector('#nct').value)
+
+            var teste = time.value.split(':')
+            var tempo = parseFloat(teste[0]) * 60 + parseFloat(teste[1])
+
+            var tm = (set + mov) / tempo
+            var cn = lot / tempo
+
+            var n = dem * (tm + cn) / nct
+
+            document.querySelector('#res').innerText = `Resultado: ${n}`
+        }
+
+    </script>
+</body>
+</html>
